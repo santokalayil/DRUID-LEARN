@@ -36,35 +36,95 @@ pub fn generate_sidebar(label: String) -> impl Widget<AppState> {
             
         }
     );
-    let test_label = Label::new(label)
+    let _test_label = Label::new(label)
         .with_text_size(24.0)
         .center()
         .background(painter)
         .expand()
         .on_click(move | _, data: &mut AppState, _ | data.custom_function());
-    let mut lists = Flex::column();
+    const FONTSIZE: f64 = 10.0;
+    use crate::widgets::list_tile;
+    let mut lists = Flex::column()
+        .with_child(list_tile::tile_title_generate("SECTIONS"));
+    use crate::data::family_data::FamilyData;
+
+    // Painter::new(
+    //     | ctx, _:&Color, _env | {
+    //         let stroke_width = 2.0;
+    
+    //         let rounded_rect = ctx.size()
+    //             .to_rect()
+    //             .inset(-stroke_width / 2.0)
+    //             .to_rounded_rect(50.0);
+
+    //         ctx.fill(rounded_rect, &MODE.tool_icon_bg);
+            
+    //         if ctx.is_hot(){
+    //             ctx.fill(rounded_rect, &MODE.tool_icon_bg_active);
+    //             ctx.stroke(rounded_rect, &MODE.tool_icon_border, stroke_width);
+    //         }
+    //     }
+    // );
+
+    
+    fn fam_item() -> impl Widget<FamilyData> {
+        let hof_label = Label::raw()
+            .with_text_size(FONTSIZE)
+            .with_text_color(MODE.side_bar_item_text_color)
+            .lens(FamilyData::head_of_family);
+        // list_tile::family_tile_generate(hof_label, "👪", 5.0)
+        let row = Flex::row()
+            .with_spacer(5.0)
+            .with_flex_child(Label::new("👪").with_text_size(FONTSIZE).with_text_color(MODE.side_bar_item_icon_color), 1.0)
+            .with_flex_child(hof_label, 1.0)
+            // .paint(ctx: &mut PaintCtx, data: &T, env: &Env);
+            // .with_flex_child(Label::new("=>").with_text_size(FONTSIZE), 1.0)
+            .background(MODE.side_bar_item_bg);
+        row
+        // Flex::row().with_flex_child(row, 1.0).background(Painter::new(
+        //     | ctx, _, _env | {
+        //         let stroke_width = 2.0;
+        
+        //         let rounded_rect = ctx.size()
+        //             .to_rect();
+        //             // .inset(-stroke_width / 2.0)
+        //             // .to_rounded_rect(50.0);
+    
+        //         ctx.fill(rounded_rect, &MODE.side_bar_item_bg);
+                
+        //         if ctx.is_hot(){
+        //             ctx.fill(rounded_rect, &MODE.tool_icon_bg_active);
+        //             ctx.stroke(rounded_rect, &MODE.tool_icon_border, stroke_width);
+        //         }
+        //     }
+        // ))
+            
+    }
         // .with_flex_child(test_label, 1.0);
     lists.add_flex_child(
         Scroll::new(
-            List::new(|| 
-                {
-                    crate::widgets::list_tile::Label::new(|number: &u32, _env: &_| format!("List item #{}", number))
-                        .with_text_size(10.0)
-                        .with_text_color(MODE.tool_icon_bg_active)
-                        // .with_text_alignment(druid::TextAlignment::End)
-                        .align_vertical(UnitPoint::LEFT)
-                        .padding(5.0)
-                        .expand()
-                        .height(30.0)
-                        // .background(painter) // NOT WORKING
-                        // .background(MODE.primary_dark) // Color::rgb(0.5, 0.5, 0.5)
-                        // .on_click(move | _, data: &mut AppState, _ | data.custom_function())
-                }
-            )  
+            List::new(fam_item) //.lens(Color)
+                // || 
+                // {
+                //     crate::widgets::list_tile::Label::new(
+                //             |fam: crate::data::family_data::FamilyData, _env: &_| format!("List item #{}", &fam.head_of_family)
+                //         )
+                //         .with_text_size(10.0)
+                //         .with_text_color(MODE.tool_icon_bg_active)
+                //         // .with_text_alignment(druid::TextAlignment::End)
+                //         .align_vertical(UnitPoint::LEFT)
+                //         .padding(5.0)
+                //         .expand()
+                //         .height(30.0)
+                //         // .background(painter) // NOT WORKING
+                //         // .background(MODE.primary_dark) // Color::rgb(0.5, 0.5, 0.5)
+                //         // .on_click(move | _, data: &mut AppState, _ | data.custom_function())
+                // }
+            // )  
         )
         .vertical()
         .background(MODE.tool_icon_bg)
-        .lens(AppState::vector),
+        .lens(AppState::families),
         1.0,
     );
     lists
