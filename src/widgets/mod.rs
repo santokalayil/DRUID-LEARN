@@ -7,4 +7,5 @@ pub mod tool_tab;
 pub mod menu;
 pub mod list_tile;
 pub mod responsible_tilebutton;
+pub mod main_view;
 // pub mod sidebar_button;
