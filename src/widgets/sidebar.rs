@@ -49,7 +49,11 @@ pub fn generate_sidebar() -> impl Widget<AppState> {
                  _env: &Env| { family.head_of_family.clone() },
             )
             .with_text_size(12.)
-            .with_text_color(THEME.side_bar_item_text_color);
+            .with_text_color(THEME.side_bar_item_text_color)
+            .expand_width()
+            .width(druid::Screen::get_display_rect().max_x())
+            // .wi
+            ;
             let famid = Label::new(
                 |(family, _selected, _idx): &(
                     Family,
@@ -57,12 +61,27 @@ pub fn generate_sidebar() -> impl Widget<AppState> {
                     usize,
                 ),
                  _env: &Env| {
-                    format!("{} -> ", family.famid)
+                    format!("{}", family.famid)
                 },
             )
-            .with_text_size(12.)
-            .with_text_color(THEME.side_bar_item_text_color);
-            let layout = Flex::row().with_child(famid).with_child(head_of_family);
+            .with_text_size(10.)
+            .with_text_color(THEME.side_bar_item_text_color)
+            // .with_text_alignment(druid::TextAlignment::Center)
+            .expand_width()
+            .width(20.)
+            ;
+            let layout = Flex::row()
+                .with_spacer(10.)
+                .with_child(famid)
+                // .with_default_spacer().expand_width().width(200.)
+                .with_child(head_of_family)
+                .cross_axis_alignment(druid::widget::CrossAxisAlignment::Center)
+                .main_axis_alignment(druid::widget::MainAxisAlignment::SpaceBetween)
+                
+                // .with_flex_spacer(1.0)
+                ;
+                // .expand_width()
+                // .height(20.0);
             let paint = Painter::new(|ctx, (_familiy, selected, idx), _env| {
                 let is_hot = ctx.is_hot();
                 let is_selected = if let Some(index) = selected {
@@ -90,26 +109,59 @@ pub fn generate_sidebar() -> impl Widget<AppState> {
                 } else {
                     THEME.side_bar_item_bg
                 };
-                // let rect = druid::kurbo::Size::new(1000. , 20.).to_rect() ; // 
+                // let rect = druid::kurbo::Size::new(1000. , 20.).to_rect() ; //
+                // let size = bc.constrain(my_size);
                 let rect = ctx.size().to_rect(); 
                 // let rect = &size.to_rect();
                 ctx.stroke(rect, &stroke_color, 1.);
                 ctx.fill(rect, &background_color);
             });
-            layout.padding(1.).background(paint).on_click(
-                |event, (_familiy, _selected, idx), _env| {
+            layout.padding(1.0).background(paint).on_click(
+                |event, (family, _selected, idx), _env| {
                     event.submit_command(Command::new(
                         CHANGE_SELECTED,
                         *idx,
                         Target::Auto,
                     ));
+                    // println!("{:?}", family.famid);
+                    crate::functions::family_page::get_family_view(family.famid);
                 },
             )
         })
-        .with_spacing(5.),
+        .with_spacing(0.0), // spacing in between tiles
     )
     .expand_width();
-    ControllerHost::new(list, AppController)
+    Flex::column()
+        .with_child(
+            Flex::row()
+                // .with_flex_spacer(0.05)
+                .with_spacer(10.)
+                .with_child(druid::widget::Label::new("§")
+                    .with_text_size(10.).expand_width().width(20.0)
+                )
+                .with_flex_child(
+                    druid::widget::Label::new("FAMILIES")
+                        .with_text_size(10.)
+                        .expand_width()
+                        
+                , 0.85)
+                // .with_flex_spacer(0.05)
+                .with_child(
+                    druid::widget::Label::new("🡃")
+                        .with_text_size(10.)
+                        // .expand_width()
+                        // .width(20.)
+                        // .with_text_alignment(druid::TextAlignment::End)
+                        // .background(THEME.test_color)
+                )
+            .cross_axis_alignment(druid::widget::CrossAxisAlignment::Center)
+            .main_axis_alignment(druid::widget::MainAxisAlignment::SpaceBetween)
+            .background(THEME.side_bar_title_heading_bg)
+            .expand_width()
+            .height(20.)
+        )
+        .with_flex_child(ControllerHost::new(list, AppController), 1.0)
+    // ControllerHost::new(list, AppController)
 }
 
 struct AppController;
