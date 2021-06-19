@@ -1,7 +1,7 @@
 use sqlite;
 use druid::{Data, Lens}; 
 
-#[derive(Clone, Data, Lens)]
+#[derive(Clone, Data, Lens, Debug)]
 pub struct Family {
     pub famid: u32,
     pub head_of_family: String,
@@ -13,6 +13,8 @@ impl Family {
         let head_of_family =head_of_family.into();
         Self {head_of_family, famid }
     }
+
+    // pub fn get_details()
 }
 
 pub fn get_family_data_from_db() -> Vec<Family> {
@@ -21,18 +23,18 @@ pub fn get_family_data_from_db() -> Vec<Family> {
     select hof.famid, hof.hof,  m.members from (select famid, group_concat(member_name, '{delimiter}') as members
     from members group by famid) as m left join
     (select famid, member_name as hof from members where rltshp = "Self") as hof
-    on m.famid = hof.famid;
+    on m.famid = hof.famid ORDER BY hof.hof;
     "#, delimiter=", ");
     let mut result: Vec<Family> = Vec::default();
     connection.iterate(format!("{}", statement), |row| {
         let family = row.iter().map(
             |x| match x.1 {
-                None => "5555".to_string(),
+                None => "NOT FOUND".to_string(),
                 Some(v) => v.to_string()
             }
         ).collect::<Vec<_>>(); 
         result.push(Family { 
-            famid : family.get(0).unwrap().to_string().parse::<u32>().unwrap(), 
+            famid : family.get(0).unwrap().to_string().parse::<u32>().unwrap_or(5555), 
             head_of_family : family.get(1).unwrap().to_string(),
         });
         true
