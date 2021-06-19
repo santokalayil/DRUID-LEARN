@@ -23,6 +23,9 @@ pub struct Color {
 
     pub side_bar_item_text_color: C,
     pub side_bar_item_icon_color: C,
+    
+    pub test_color: C,
+    pub yellow: C,
 
 
 }
@@ -40,13 +43,16 @@ pub const DARK: Color = Color {
     side_bar_title_heading_bg: C::rgba8(0x11, 0x11, 0x11, 0xff),
 
     side_bar_item_bg: C::rgba8(0x20, 0x20, 0x20, 0xff), // transparent
-    side_bar_item_bg_hot: C::rgb8(0xbb, 0xbb, 0xbb),
+    side_bar_item_bg_hot: C::rgb8(0x9f, 0xff, 0x9f),
     side_bar_item_bg_active: C::rgb8(0x66, 0x66, 0x66),
     side_bar_item_bg_selected: C::rgb8(0x88, 0x88, 0x88),
 
     side_bar_item_text_color: C::rgba8(0x9a, 0x9a, 0xff, 0xff),
     side_bar_item_icon_color: C::rgba8(0x40, 0x9a, 0xf5, 0xff),
     
+
+    test_color: C::RED,
+    yellow: C::YELLOW,
 
 };
 
