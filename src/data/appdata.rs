@@ -3,7 +3,7 @@ use druid::{Data, Lens};
 use std::sync::Arc;
 use crate::data::family_data::Family;
 
-#[derive(Clone, Data, Lens)]
+#[derive(Clone, Data, Lens, Debug)]
 pub struct AppState { 
     pub window_title : String,
     pub vector: Vector<u32>,
