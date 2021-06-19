@@ -1,5 +1,9 @@
-use druid::{Widget, WidgetExt, Data, RenderContext, Color, Lens, im}; // theme, RenderContext, Color, Application, Event, ImageBuf
-use druid::widget::{Flex, Label, Switch, Painter, CrossAxisAlignment, MainAxisAlignment}; // Image, Svg, SvgData, CrossAxisAlignment 
+use druid::{Widget, WidgetExt,
+    //  Data, RenderContext, Color, Lens, im
+    }; // theme, RenderContext, Color, Application, Event, ImageBuf
+use druid::widget::{Flex, Label, Switch, 
+    // Painter, CrossAxisAlignment, 
+    MainAxisAlignment}; // Image, Svg, SvgData, CrossAxisAlignment 
 
 use crate::app::AppState;
 use crate::widgets::{
@@ -30,7 +34,7 @@ pub fn layout() -> impl Widget<AppState> {
         )
         .with_flex_child( // body
             Split::columns(
-                generate_sidebar(String::from("Split A")), 
+                generate_sidebar(), 
                 generate_frame(String::from("Split B"))
             )
                 .bar_size(1.0)
