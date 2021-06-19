@@ -5,6 +5,7 @@ pub mod controllers;
 pub mod colors;
 pub mod assets;
 pub mod data;
+pub mod functions;
 
 // #[macro_use]
 // extern crate rust_embed;
