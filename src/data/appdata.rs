@@ -1,12 +1,14 @@
-use druid::im::{Vector, vector};
+use druid::im::{Vector, }; // vector
 use druid::{Data, Lens};
-use crate::data::family_data::FamilyData;
+use std::sync::Arc;
+use crate::data::family_data::Family;
 
 #[derive(Clone, Data, Lens)]
 pub struct AppState { 
     pub window_title : String,
     pub vector: Vector<u32>,
-    pub families: Vector<FamilyData>,
+    pub families: Arc<Vec<Family>>,
+    pub selected: Option<usize>,
     pub checkbox_data: bool,
 }
 impl AppState {
@@ -14,3 +16,4 @@ impl AppState {
         println!("custom function");
     }
 }
+
