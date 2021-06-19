@@ -10,7 +10,7 @@ use crate::widgets::{
     titlebar::generate_titlebar,
     split::Split,
     sidebar::generate_sidebar,
-    frame::generate_frame,
+    // frame::generate_frame,
 };
 // use crate::assets::logo;
 // use crate::app::MODE;
@@ -35,15 +35,16 @@ pub fn layout() -> impl Widget<AppState> {
         .with_flex_child( // body
             Split::columns(
                 generate_sidebar(), 
-                generate_frame(String::from("Split B"))
+                crate::widgets::main_view::generate_main_view()
+                // generate_frame(String::from("Split B"))
             )
-                .bar_size(1.0)
-                .split_point(0.15)
-                .draggable(true)
-                .solid_bar(true)
-                .min_size(50.0, 100.0)
-                .min_bar_area(0.0)
-                .expand()
+            .bar_size(1.0)
+            .split_point(0.15)
+            .draggable(true)
+            .solid_bar(true)
+            .min_size(50.0, 100.0)
+            .min_bar_area(0.0)
+            .expand()
         , 1.0)
         .with_child(Label::new("DISPLAY").with_text_size(10.0).padding(1.0))
 }
