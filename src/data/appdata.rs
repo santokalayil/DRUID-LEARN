@@ -15,5 +15,8 @@ impl AppState {
     pub fn custom_function(&mut self) {
         println!("custom function");
     }
+    // pub fn get_selected_family_view(&mut self) {
+    //     self.families = 
+    // }
 }
 
