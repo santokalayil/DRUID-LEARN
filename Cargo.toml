@@ -9,7 +9,7 @@ build = "build.rs"
 
 [dependencies]
 sqlite = "0.26.0"
-druid = {git = "https://github.com/linebender/druid.git", features = ["im", "svg", "image", "png"]}
+druid = {git = "https://github.com/linebender/druid.git", features = ["im", "svg", "image", "png", "jpeg"]}
 # tracing = { version = "0.1.22" }
 rust-embed = "5.9.0"
 # druid-shell = { version = "0.7.0", default-features = false, path = "druid-shell" }
