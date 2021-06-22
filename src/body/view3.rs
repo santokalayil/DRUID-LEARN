@@ -35,7 +35,9 @@ pub fn layout() -> impl Widget<AppState> {
         .with_flex_child( // body
             Split::columns(
                 generate_sidebar(), 
-                crate::widgets::main_view::generate_main_view()
+                crate::widgets::main_view::generate_main_view(
+                    &crate::widgets::main_view::MainView { family_view : true}
+                )
                 // generate_frame(String::from("Split B"))
             )
             .bar_size(1.0)
