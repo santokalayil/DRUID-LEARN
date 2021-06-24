@@ -45,7 +45,6 @@ pub fn generate_titlebar(label: String) -> impl Widget<AppState> {
         .with_flex_spacer(0.2)
         .with_flex_child(
             Label::new(label)
-            
                 .with_text_size(title_font_size)
                 .align_left()
                 .fix_height(title_bar_size)
